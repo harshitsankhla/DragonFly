@@ -8,7 +8,8 @@ sudo apt-get update
 
 # install librealsense debian packages
 sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE
-sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
+#sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
+sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" -u
 
 sudo apt-get install librealsense2-udev-rules librealsense2-dkms librealsense2 librealsense2-utils librealsense2-dev librealsense2-dbg
 
@@ -20,16 +21,16 @@ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
 sudo apt-get update
-sudo apt-get install ros-kinetic-desktop-full
+sudo apt-get install ros-melodic-desktop-full
 
 sudo rosdep init
 rosdep update
 
-echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 source $HOME/.bashrc
 
 sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
-sudo apt install ros-kinetic-rgbd-launch
+sudo apt install ros-melodic-rgbd-launch
 
 # Sublime-Text
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
@@ -77,9 +78,6 @@ catkin_make install
 
 echo "source ~/catkin_ws/devel/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc
-
-# OctoMap
-
 
 # MAVROS
 cd $HOME

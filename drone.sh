@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # paths and variables
 BASE=$(pwd)
@@ -14,9 +14,9 @@ sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/
 sudo apt-get install librealsense2-udev-rules librealsense2-dkms librealsense2 librealsense2-utils librealsense2-dev librealsense2-dbg
 
 # install ubuntu basic utilities
-sudo apt-get install terminator git openssh-server exfat-fuse exfat-utils
+sudo apt-get install terminator openssh-server exfat-fuse exfat-utils
 
-# install ROS Kinetic
+# install ROS Melodic
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
@@ -26,11 +26,11 @@ sudo apt-get install ros-melodic-desktop-full
 sudo rosdep init
 rosdep update
 
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+echo "source /opt/ros/melodic/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc
+source /opt/ros/melodic/setup.bash
 
 sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
-sudo apt install ros-melodic-rgbd-launch
 
 # Sublime-Text
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
@@ -39,11 +39,11 @@ sudo apt-get update
 sudo apt-get install sublime-text
 
 # QGroundControl
-mv ./QGroundControl.AppImage $HOME
+mv ./UAV_tools/QGroundControl.AppImage $HOME
 sudo chmod +x $HOME/QGroundControl.AppImage
 
 # Ceres-Solver
-mv $BASE/ceres-solver $HOME
+mv $BASE/libraries/ceres-solver $HOME
 sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev
 sudo add-apt-repository ppa:bzindovic/suitesparse-bugfix-1319687
 sudo apt-get update
@@ -56,25 +56,19 @@ make -j4
 make test
 sudo make install
 
+# Some ROS Package add-ons
+sudo apt install ros-melodic-rgbd-launch
+
 # Initialize ROS Workspace and add Packages
 cd $HOME
 mkdir -p catkin_ws/src
 cd catkin_ws/src
-catkin_init_workspace
 
-mv $BASE/bluefox2 ./
-mv $BASE/camera_base ./
-mv $BASE/ddynamic_reconfigure ./
-mv $BASE/ethzasl_xsens_driver ./
-mv $BASE/realsense-ros ./
-mv $BASE/VINS-Fusion ./
-mv $BASE/VINS-Mono ./
-mv $BASE/octomap_mapping ./
+mv $BASE/ROS_packages/* ./
 
 cd ../
 catkin_make clean
-catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release
-catkin_make install
+catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release -j8
 
 echo "source ~/catkin_ws/devel/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc
@@ -86,6 +80,18 @@ wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/inst
 sudo chmod +x install_geographiclib_datasets.sh
 ./install_geographiclib_datasets.sh
 
-# finishing touch
-sudo reboot
+# BASH Functions for easier calls
+echo "bf()"
+echo "imu()"
+echo "rs()"
+echo "vinsmono()"
 
+# dumping camera YAML File
+mkdir $HOME/.ros/camera_info
+mv $BASE/extras/camera_yaml/* $HOME/.ros/camera_info/
+
+# finishing touch
+sudo usermod -a -G dialout $USER
+sudo rm /etc/ld.so.conf.d/acquire.conf
+sudo ldconfig
+sudo reboot

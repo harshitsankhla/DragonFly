@@ -84,11 +84,15 @@ sudo chmod +x install_geographiclib_datasets.sh
 echo "bf()"
 echo "imu()"
 echo "rs()"
-echo "vinsmono()"
+echo "vmono()"
 
-# dumping camera YAML File
+# dumping bluefox2 camera YAML File
 mkdir $HOME/.ros/camera_info
 mv $BASE/extras/camera_yaml/* $HOME/.ros/camera_info/
+
+# bluefox2 camera permissions settings
+sudo cp $HOME/catkin_ws/src/bluefox2/mvIMPACT/script/51-mvbf.rules /etc/udev/rules.d/
+sudo service udev reload
 
 # finishing touch
 sudo usermod -a -G dialout $USER

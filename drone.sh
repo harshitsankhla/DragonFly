@@ -69,6 +69,7 @@ cd ../
 source /opt/ros/melodic/setup.bash
 catkin_make clean
 catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release -j8
+# catkin_make install
 
 echo "source ~/catkin_ws/devel/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc
@@ -85,6 +86,7 @@ echo "bf(){
 	LD_LIBRARY_PATH=/opt/mvIMPACT_Acquire/lib/x86_64:/opt/mvIMPACT_Acquire/Toolkits/expat/bin/x86_64/lib:$LD_LIBRARY_PATH roslaunch bluefox2 single_node.launch
 }" >> $HOME/.bashrc
 echo "imu(){
+	sudo chmod 777 /dev/ttyUSB*
 	roslaunch xsens_driver xsens_driver.launch
 }" >> $HOME/.bashrc
 echo "rs(){
@@ -103,10 +105,10 @@ sudo cp $HOME/catkin_ws/src/bluefox2/mvIMPACT/script/51-mvbf.rules /etc/udev/rul
 sudo service udev reload
 
 # bluefox2 USB driver
-sudo chmod +x $BASE/extras/install_mvBlueFOX.sh
-source $BASE/extras/install_mvBlueFOX.sh
-sudo rm /etc/ld.so.conf.d/acquire.conf
-sudo ldconfig
+# sudo chmod +x $BASE/extras/install_mvBlueFOX.sh
+# source $BASE/extras/install_mvBlueFOX.sh
+# sudo rm /etc/ld.so.conf.d/acquire.conf
+# sudo ldconfig
 
 # finishing touch
 sudo usermod -a -G dialout $USER

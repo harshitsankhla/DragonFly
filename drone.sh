@@ -11,17 +11,17 @@ sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo 
 #sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
 sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" -u
 
-sudo apt-get install librealsense2-udev-rules librealsense2-dkms librealsense2 librealsense2-utils librealsense2-dev librealsense2-dbg
+sudo apt-get install librealsense2-udev-rules librealsense2-dkms librealsense2 librealsense2-utils librealsense2-dev librealsense2-dbg -y
 
 # install ubuntu basic utilities
-sudo apt-get install terminator openssh-server exfat-fuse exfat-utils
+sudo apt-get install terminator openssh-server exfat-fuse exfat-utils -y
 
 # install ROS Melodic
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
 sudo apt-get update
-sudo apt-get install ros-melodic-desktop-full
+sudo apt-get install ros-melodic-desktop-full -y
 
 sudo rosdep init
 rosdep update
@@ -29,13 +29,13 @@ rosdep update
 echo "source /opt/ros/melodic/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc
 
-sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
+sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential -y
 
 # Sublime-Text
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 sudo apt-get update
-sudo apt-get install sublime-text
+sudo apt-get install sublime-text -y
 
 # QGroundControl
 mv ./UAV_tools/QGroundControl.AppImage $HOME
@@ -43,10 +43,10 @@ sudo chmod +x $HOME/QGroundControl.AppImage
 
 # Ceres-Solver
 mv $BASE/libraries/ceres-solver $HOME
-sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev
+sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev -y
 sudo add-apt-repository ppa:bzindovic/suitesparse-bugfix-1319687
 sudo apt-get update
-sudo apt-get install libsuitesparse-dev
+sudo apt-get install libsuitesparse-dev -y
 cd $HOME
 mkdir ceres-bin
 cd ceres-bin
@@ -56,7 +56,7 @@ make test
 sudo make install
 
 # Some ROS Package add-ons
-sudo apt install ros-melodic-rgbd-launch
+sudo apt install ros-melodic-rgbd-launch -y
 
 # Initialize ROS Workspace and add Packages
 cd $HOME
@@ -105,10 +105,10 @@ sudo cp $HOME/catkin_ws/src/bluefox2/mvIMPACT/script/51-mvbf.rules /etc/udev/rul
 sudo service udev reload
 
 # bluefox2 USB driver
-# sudo chmod +x $BASE/extras/install_mvBlueFOX.sh
-# source $BASE/extras/install_mvBlueFOX.sh
-# sudo rm /etc/ld.so.conf.d/acquire.conf
-# sudo ldconfig
+sudo chmod +x $BASE/extras/install_mvBlueFOX.sh
+. $BASE/extras/install_mvBlueFOX.sh
+sudo rm /etc/ld.so.conf.d/acquire.conf
+sudo ldconfig
 
 # finishing touch
 sudo usermod -a -G dialout $USER

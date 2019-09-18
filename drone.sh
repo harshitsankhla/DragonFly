@@ -106,7 +106,7 @@ sudo service udev reload
 
 # bluefox2 USB driver
 sudo chmod +x $BASE/extras/install_mvBlueFOX.sh
-. $BASE/extras/install_mvBlueFOX.sh
+$BASE/extras/install_mvBlueFOX.sh
 sudo rm /etc/ld.so.conf.d/acquire.conf
 sudo ldconfig
 

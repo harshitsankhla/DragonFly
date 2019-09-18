@@ -28,7 +28,6 @@ rosdep update
 
 echo "source /opt/ros/melodic/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc
-source /opt/ros/melodic/setup.bash
 
 sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
 
@@ -67,6 +66,7 @@ cd catkin_ws/src
 mv $BASE/ROS_packages/* ./
 
 cd ../
+source /opt/ros/melodic/setup.bash
 catkin_make clean
 catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release -j8
 
@@ -81,10 +81,18 @@ sudo chmod +x install_geographiclib_datasets.sh
 ./install_geographiclib_datasets.sh
 
 # BASH Functions for easier calls
-echo "bf()"
-echo "imu()"
-echo "rs()"
-echo "vmono()"
+echo "bf(){
+	LD_LIBRARY_PATH=/opt/mvIMPACT_Acquire/lib/x86_64:/opt/mvIMPACT_Acquire/Toolkits/expat/bin/x86_64/lib:$LD_LIBRARY_PATH roslaunch bluefox2 single_node.launch
+}" >> $HOME/.bashrc
+echo "imu(){
+	roslaunch xsens_driver xsens_driver.launch
+}" >> $HOME/.bashrc
+echo "rs(){
+	roslaunch realsense2_camera rs_rgbd.launch
+}" >> $HOME/.bashrc
+echo "vmono(){
+	roslaunch vins_estimator bf_xsens.launch
+}" >> $HOME/.bashrc
 
 # dumping bluefox2 camera YAML File
 mkdir $HOME/.ros/camera_info
@@ -94,8 +102,12 @@ mv $BASE/extras/camera_yaml/* $HOME/.ros/camera_info/
 sudo cp $HOME/catkin_ws/src/bluefox2/mvIMPACT/script/51-mvbf.rules /etc/udev/rules.d/
 sudo service udev reload
 
-# finishing touch
-sudo usermod -a -G dialout $USER
+# bluefox2 USB driver
+sudo chmod +x $BASE/extras/install_mvBlueFOX.sh
+source $BASE/extras/install_mvBlueFOX.sh
 sudo rm /etc/ld.so.conf.d/acquire.conf
 sudo ldconfig
+
+# finishing touch
+sudo usermod -a -G dialout $USER
 sudo reboot

@@ -1,6 +1,6 @@
 <launch>
     <!-- Common Interface -->
-    <arg name="device" default=""/>
+    <arg name="device" default="REPLACE_CAMERA_SERIAL_HERE"/>
     <arg name="rate" default="30"/>
 
     <!-- Camera Settings -->

@@ -60,7 +60,7 @@ sudo apt install ros-melodic-rgbd-launch -y
 
 # Initialize ROS Workspace and add Packages
 cd $HOME
-mkdir -p catkin_ws/src
+mkdir -p dragonfly_ws/src
 cd catkin_ws/src
 
 mv $BASE/ROS_packages/* ./

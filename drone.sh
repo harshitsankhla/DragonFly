@@ -55,13 +55,15 @@ make -j4
 make test
 sudo make install
 
-# Some ROS Package add-ons
+# Some ROS Packages
 sudo apt install ros-melodic-rgbd-launch -y
+sudo apt-get install ros-melodic-octomap -y
+sudo apt-get install ros-melodic-mavros ros-melodic-mavros-extras -y
 
 # Initialize ROS Workspace and add Packages
 cd $HOME
 mkdir -p dragonfly_ws/src
-cd catkin_ws/src
+cd dragonfly_ws/src
 
 mv $BASE/ROS_packages/* ./
 
@@ -71,12 +73,11 @@ catkin_make clean
 catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release -j8
 # catkin_make install
 
-echo "source ~/catkin_ws/devel/setup.bash" >> $HOME/.bashrc
+echo "source ~/dragonfly_ws/devel/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc
 
-# MAVROS
+# MAVROS Geographiclib Setup 
 cd $HOME
-sudo apt-get install ros-melodic-mavros ros-melodic-mavros-extras
 wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
 sudo chmod +x install_geographiclib_datasets.sh
 sudo ./install_geographiclib_datasets.sh
@@ -92,6 +93,9 @@ echo "imu(){
 echo "rs(){
 	roslaunch realsense2_camera rs_rgbd.launch
 }" >> $HOME/.bashrc
+echo "px(){
+	roslaunch mavros px4.launch
+}" >> $HOME/.bashrc
 echo "vmono(){
 	roslaunch vins_estimator bf_xsens.launch
 }" >> $HOME/.bashrc
@@ -101,7 +105,7 @@ mkdir $HOME/.ros/camera_info
 mv $BASE/extras/camera_yaml/* $HOME/.ros/camera_info/
 
 # bluefox2 camera permissions settings
-sudo cp $HOME/catkin_ws/src/bluefox2/mvIMPACT/script/51-mvbf.rules /etc/udev/rules.d/
+sudo cp $HOME/dragonfly_ws/src/bluefox2/mvIMPACT/script/51-mvbf.rules /etc/udev/rules.d/
 sudo service udev reload
 
 # bluefox2 USB driver

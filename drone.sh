@@ -69,9 +69,9 @@ mv $BASE/ROS_packages/* ./
 
 cd ../
 source /opt/ros/melodic/setup.bash
+rosdep install --from-paths src --ignore-src -r -y
 catkin_make clean
 catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release -j8
-# catkin_make install
 
 echo "source ~/dragonfly_ws/devel/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc

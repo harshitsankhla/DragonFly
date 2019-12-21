@@ -12,6 +12,14 @@ cd DragonFly
 sudo chmod +x drone.sh
 . drone.sh
 ```
+## Hardware Installed
+  * mvBlueFox monocular camera
+  * xsens IMU
+  * Intel Realsense
+  * Intel NUC Mini PC
+  * Here+ RTK GPS
+  * Pixhawk 4
+  * TF Mini LiDAR
 
 ## Manual Changes
 - **Set your Monocular Camera Serial Number**

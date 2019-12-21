@@ -1,5 +1,23 @@
 #!/bin/bash
 
+echo " _ _ _  ____        _      _                    _____                          _____      _               _ _ _ "
+echo "| | | |/ __ \      | |    | |                  |  __ \                        / ____|    | |             | | | |"
+echo "| | | | |  | |_   _| |_ __| | ___   ___  _ __  | |  | |_ __ ___  _ __   ___  | (___   ___| |_ _   _ _ __ | | | |"
+echo "| | | | |  | | | | | __/ _\` |/ _ \ / _ \| '__| | |  | | '__/ _ \| '_ \ / _ \  \___ \ / _ \ __| | | | '_ \| | | |"
+echo "|_|_|_| |__| | |_| | || (_| | (_) | (_) | |    | |__| | | | (_) | | | |  __/  ____) |  __/ |_| |_| | |_) |_|_|_|"
+echo "(_|_|_)\____/ \__,_|\__\__,_|\___/ \___/|_|    |_____/|_|  \___/|_| |_|\___| |_____/ \___|\__|\__,_| .__/(_|_|_)"
+echo "                                                                                                   | |          "
+echo "                                                                                                   |_|          "
+echo "This script will install - "
+echo "1. ROS Melodic"
+echo "2. librealsense"
+echo "3. ceres-solver"
+echo "4. ROS Packages for - bluefox | xsens-imu | realsense | VINS - Mono and Fusion | MAVROS | Octomap"
+echo "5. Utilities - Sublime Text | Terminator | openssh | exFAT utils"
+echo "6. MatrixVision Impact Driver for MonoCam"
+echo -e '\n'
+read -p "Press enter to continue...."
+
 # paths and variables
 BASE=$(pwd)
 

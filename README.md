@@ -29,5 +29,9 @@ subl ~/dragonfly_ws/src/VINS-Mono/config/bf_xsens/bf_xsens_config.yaml
 rosrun tf static_transform_publisher x y z yaw pitch roll parent_frame child_frame period_in_ms
 rosrun tf static_transform_publisher x y z qx qy qz qw parent_frame child_frame period_in_ms
 ```
+- **If ROS gives permission denied error**
+```
+sudo rosdep fix-permissions
+```
 
 GDrive - https://drive.google.com/open?id=1M_KefI5scPEAR6IHr5KD8DPDBbuKsVKl

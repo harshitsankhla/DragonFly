@@ -13,7 +13,7 @@ echo "1. ROS Melodic"
 echo "2. librealsense"
 echo "3. ceres-solver"
 echo "4. ROS Packages for - bluefox | xsens-imu | realsense | VINS - Mono and Fusion | MAVROS | Octomap"
-echo "5. Utilities - Sublime Text | Terminator | openssh | exFAT utils"
+echo "5. Utilities - Sublime Text | Terminator | openssh | exFAT utils | tmux"
 echo "6. MatrixVision Impact Driver for MonoCam"
 echo -e '\n'
 read -p "Press enter to continue...."
@@ -21,18 +21,17 @@ read -p "Press enter to continue...."
 # paths and variables
 BASE=$(pwd)
 
-# customary commands
+# shri ganesh
 sudo apt-get update
 
 # install librealsense debian packages
 sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE
 #sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
 sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" -u
-
 sudo apt-get install librealsense2-udev-rules librealsense2-dkms librealsense2 librealsense2-utils librealsense2-dev librealsense2-dbg -y
 
-# install ubuntu basic utilities
-sudo apt-get install terminator openssh-server exfat-fuse exfat-utils -y
+# install some ubuntu basic utilities
+sudo apt-get install terminator openssh-server exfat-fuse exfat-utils tmux -y
 
 # install ROS Melodic
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -75,7 +74,7 @@ sudo make install
 
 # Some ROS Packages
 sudo apt install ros-melodic-rgbd-launch -y
-sudo apt-get install ros-melodic-octomap -y
+sudo apt-get install ros-melodic-octomap ros-melodic-octomap-mapping -y
 sudo apt-get install ros-melodic-mavros ros-melodic-mavros-extras -y
 
 # Initialize ROS Workspace and add Packages

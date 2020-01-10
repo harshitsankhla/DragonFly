@@ -94,10 +94,8 @@ echo "source ~/dragonfly_ws/devel/setup.bash" >> $HOME/.bashrc
 source $HOME/.bashrc
 
 # MAVROS Geographiclib Setup 
-cd $HOME
-wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
-sudo chmod +x install_geographiclib_datasets.sh
-sudo ./install_geographiclib_datasets.sh
+sudo chmod +x $BASE/extras/install_geographiclib_datasets.sh
+sudo $BASE/extras/install_geographiclib_datasets.sh
 
 # BASH Functions for easier calls
 echo "bf(){

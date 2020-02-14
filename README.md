@@ -3,6 +3,9 @@ Software Setup for Outdoor UAV at RRC-IIIT Hyderabad
 
 ![Hardware Map](/extras/hardware.png)
 
+## Overview
+For the development of an autonomous drone for outdoor environments. Online mapping, planning and control in unknown environments. GPS based goal selection. Octomap used for mapping. VINS used for state estimation. 
+
 ## Installation
 _**NOTE:** Please run this installation only on a fresh formatted system with Ubuntu 16/18_
 
@@ -15,7 +18,7 @@ sudo chmod +x drone.sh
 ## Hardware Installed
   * mvBlueFox monocular camera
   * xsens IMU
-  * Intel Realsense
+  * Intel Realsense 415/435
   * Intel NUC Mini PC
   * Here+ RTK GPS
   * Pixhawk 4
@@ -41,5 +44,3 @@ rosrun tf static_transform_publisher x y z qx qy qz qw parent_frame child_frame 
 ```
 sudo rosdep fix-permissions
 ```
-
-GDrive - https://drive.google.com/open?id=1M_KefI5scPEAR6IHr5KD8DPDBbuKsVKl

@@ -21,7 +21,7 @@ read -p "Press enter to continue...."
 # paths and variables
 BASE=$(pwd)
 
-# shri ganesh
+# initialize package list
 sudo apt-get update
 
 # install librealsense debian packages

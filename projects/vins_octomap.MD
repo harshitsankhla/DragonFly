@@ -1,3 +1,7 @@
+# VINS State Estimation and Outdoor Mapping using OctoMap
+
+![ROS Drone Hardware Map](/extras/images/hardware.png)
+
 ## Manual Changes
 - **Set your Monocular Camera Serial Number**
 ```

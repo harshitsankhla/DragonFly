@@ -32,7 +32,7 @@ sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/
 sudo apt-get install librealsense2-udev-rules librealsense2-dkms librealsense2 librealsense2-utils librealsense2-dev librealsense2-dbg -y
 
 # install some ubuntu basic utilities
-sudo apt-get install terminator openssh-server exfat-fuse exfat-utils tmux -y
+sudo apt-get install terminator openssh-server exfat-fuse exfat-utils tmux vim -y
 
 # install ROS Melodic
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -63,7 +63,7 @@ sudo chmod +x $HOME/QGroundControl.AppImage
 # Ceres-Solver
 mv $BASE/libraries/ceres-solver $HOME
 sudo apt-get install libgoogle-glog-dev libatlas-base-dev libeigen3-dev -y
-sudo add-apt-repository ppa:bzindovic/suitesparse-bugfix-1319687
+sudo add-apt-repository ppa:bzindovic/suitesparse-bugfix-1319687 -y
 sudo apt-get update
 sudo apt-get install libsuitesparse-dev -y
 cd $HOME

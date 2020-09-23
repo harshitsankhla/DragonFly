@@ -1,0 +1,1 @@
+/camera/depth/camera_info /camera/depth_registered/points /imu/data /mavros/global_position/raw/fix /mavros/local_position/odom /mv_26806796/camera_info /mv_26806796/image_raw /tf_static /time_reference

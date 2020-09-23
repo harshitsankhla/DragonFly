@@ -1,0 +1,25 @@
+<launch>
+ 	<arg name="world_frame_id" default="/world" />
+ 	<arg name="body_frame_id" default="/body" />
+ 	<arg name="camera_frame_id" default="/camera" />
+ 	<arg name="rs_frame_id" default="/camera_link" />
+ 	<arg name="map_frame_id" default="/map" />
+
+ 	<node pkg="tf" type="static_transform_publisher" name="camera_world_to_map"
+        args="-0.0 0.0 0.0 0 0 0 /camera /camera_color_optical_frame 1" >
+    </node>
+
+	<node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+		<param name="resolution" value="0.25" />
+		
+		<!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
+		<param name="frame_id" type="string" value="world" />
+		
+		<!-- maximum range to integrate (speedup!) -->
+		<param name="sensor_model/max_range" value="8" />
+		
+		<!-- data source to integrate (PointCloud2) -->
+		<remap from="cloud_in" to="/camera/depth_registered/points" />
+	
+	</node>
+</launch>

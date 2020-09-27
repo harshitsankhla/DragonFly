@@ -1,6 +1,6 @@
 # Phoenix
 
-![Phoenix](/extras/images/phoenix.jpg)
+![](/extras/images/phoenix.jpg)
 
 Phoenix is an advanced quadrotor at RRC running the latest ArduPilot firmware. The Phoenix platform has been developed for testing high-speed camera only applications. The interface is non-ROS. We use [pymavlink](https://github.com/ArduPilot/pymavlink) to communicate with the FC and other standard libraries for development.
 

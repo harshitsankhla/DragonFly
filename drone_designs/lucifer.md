@@ -1,6 +1,6 @@
 # Lucifer 
 
-![Lucifer](/extras/images/lucifer.jpg)
+![](/extras/images/lucifer.jpg)
 
 Lucifer is an advanced quadrotor at RRC (custom built by [THANOS](http://www.thanos.in/)) running the latest PX4 firmware. It is our premier ROS-enabled drone capable of running Vision, Mapping, State Estimation, and SLAM algorithms online on an Intel-i7 NUC Board installed as a companion computer. We use MAVROS and MAVSDK for interfacing the flight controller.   
 

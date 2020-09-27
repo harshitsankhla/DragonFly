@@ -7,7 +7,9 @@ To build an Octomap, we need 2 important pieces of information. A 3D perception 
 
 ## Hardware Setup
 Following is the setup designed for this project, mounted on [Lucifer](https://github.com/harshitsankhla/DragonFly/blob/master/drone_designs/lucifer.md).
-![](/extras/images/vins_setup.jpg)
+<p align="center">
+  <img src="/extras/images/vins_setup.jpg">
+</p>
 The BlueFox camera is hardware triggered from the Xsens IMU. This connection has to be created separately depending upon the cables you have. All components are connected via USB to the NUC.
 
 ## Workspace Configuration

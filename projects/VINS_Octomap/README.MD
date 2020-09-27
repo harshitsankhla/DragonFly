@@ -1,14 +1,13 @@
 # VINS State Estimation and Outdoor Mapping using OctoMap (ROS)
-
-![](/extras/gifs/vins_octomap.gif)
 This project is on outdoor mapping. Our aim is to make an [Octomap](https://octomap.github.io/) which is a 3D occupancy map using Visual-Inertial Odometry and, optionally, global fusion with GPS. The map created can be later used for navigating drones in the environment, by way-point extraction through path planning algorithms. 
+![](/extras/gifs/vins_octomap.gif)
 
 ## Intro
 To build an Octomap, we need 2 important pieces of information. A 3D perception of the environment and our pose/trajectory to register a map in reference to a fixed frame. For this project, we obtain 3D PointCloud from a Realsense D415 and VI-Odometry through a BlueFox-Xsens (Monocular Camera-IMU) combination, however, the pipeline will remain the same for other hardware configurations you may wish to explore. The camera is hardware-triggered via the IMU. Time-synchronisation is extremely important in VI-Odometry, and ideally should be within an order of 1ms, else you may observe significant drift in trajectory. Time-sync is reaquired for GPS as well if you choose to do global fusion with the VI-Odometry.
 
 ## Hardware Setup
 Following is the setup designed for this project, mounted on [Lucifer](https://github.com/harshitsankhla/DragonFly/blob/master/drone_designs/lucifer.md).
-<img src="/extras/images/vins_setup.jpg" height="640" width="594">
+![](/extras/images/vins_setup.jpg)
 The BlueFox camera is hardware triggered from the Xsens IMU. This connection has to be created separately depending upon the cables you have. All components are connected via USB to the NUC.
 
 ## Workspace Configuration

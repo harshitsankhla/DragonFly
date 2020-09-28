@@ -32,7 +32,6 @@ https://github.com/harshitsankhla/DragonFly/blob/master/ROS_packages/VINS-Fusion
 
 ## Map Building Step 1 - Data Collection
 We collect RGB-image, IMU and PointCloud data in real-time from the drone. Our companion computer serves as our ROS server to the nodes streaming these messages from the sensors. In 4 separate terminal windows on your companion computer (since it will be in flight, you will have to SSH into it and start a TMUX session) and in each window separately, type in the following commands -
-In Terminal window 1 -
 ```
 # if using ArduPilot firmware
 $ roslaunch mavros apm.launch
@@ -53,10 +52,10 @@ $ rs
 ```
 Then record the data while flying your drone in a bag file by the following command -
 ```
-rosbag record -O vins_octomap.bag `cat vins_octo_topics.txt`
+$ rosbag record -O vins_octomap.bag `cat vins_octo_topics.txt`
 ```
 The vins_octo_topics.txt file is provided here, you can save it at a suitable location and enter the corresponding path above. After the above commands, your terminal layout should look somewhat like this -
-![](/extras/images/vins_octomap_record.jpg)
+![](/extras/images/vins_octomap_record.png)
 
 ## Map Building Step 2 - Visualization
 The final step is to visualize the VI-Odometry trajectory and the registered OctoMap from the pointcloud data. For this procedure open 5 terminal windows and in sequence enter the following commands in each window separately - 
@@ -79,12 +78,11 @@ $ rosbag play vins_octomap.bag
 ```
 If you have the [config files](https://github.com/harshitsankhla/DragonFly/tree/master/ROS_packages/VINS-Fusion/config/bf_xsens) setup correctly, you should be seeing the pose output in the terminal window and path in RVIZ. Optionally, if you want to perform global fusion with GPS, then in a separate window run the following command - 
 ```
-rosrun global_fusion global_fusion_node /mavros/global_position/raw/fix:=/gps
+$ rosrun global_fusion global_fusion_node /mavros/global_position/raw/fix:=/gps
 ```
 Finally, start publishing the octomap -
 ```
 $ roslaunch octomap_server octomap_mapping.launch
 ```
+
 Now you should be seeing the octomap aligned with the drone's trajectory. 
-
-

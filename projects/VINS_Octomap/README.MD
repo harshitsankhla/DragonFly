@@ -1,5 +1,5 @@
 # VINS State Estimation and Outdoor Mapping using OctoMap (ROS)
-This project is on outdoor mapping. Our aim is to make an [Octomap](https://octomap.github.io/) which is a 3D occupancy map using Visual-Inertial Odometry and, optionally, global fusion with GPS. The map created can be later used for navigating drones in the environment, by way-point extraction through path planning algorithms. 
+This project is on outdoor mapping. Our aim is to make an [Octomap](https://octomap.github.io/) which is a 3D occupancy map using [Visual-Inertial Odometry](https://arxiv.org/pdf/1906.03289.pdf) and, optionally, global fusion with GPS. The map created can be later used for navigating drones in the environment, by way-point extraction through path planning algorithms. 
 ![](/extras/gifs/vins_octomap.gif)
 
 ## Intro
@@ -31,6 +31,60 @@ https://github.com/harshitsankhla/DragonFly/blob/master/ROS_packages/VINS-Fusion
 *You need to configure the frame in which the map and odometry is to be published and define the transform between the PointCloud and Odometry Source so the PointCloud registers correctly. There are a couple other parameters you can change, from default, to improve performance. You can directly use the launch file provided here which is a decently tested.*
 
 ## Map Building Step 1 - Data Collection
-
+We collect RGB-image, IMU and PointCloud data in real-time from the drone. Our companion computer serves as our ROS server to the nodes streaming these messages from the sensors. In 4 separate terminal windows on your companion computer (since it will be in flight, you will have to SSH into it and start a TMUX session) and in each window separately, type in the following commands -
+In Terminal window 1 -
+```
+# if using ArduPilot firmware
+$ roslaunch mavros apm.launch
+# if using PX4 firmware
+$ roslaunch mavros px4.launch
+```
+```
+# start the XSense IMU node
+$ imu
+```
+```
+# start the mvBlueFox2 camera node
+$ bf
+```
+```
+# start the RealSense Camera node
+$ rs
+```
+Then record the data while flying your drone in a bag file by the following command -
+```
+rosbag record -O vins_octomap.bag `cat vins_octo_topics.txt`
+```
+The vins_octo_topics.txt file is provided here, you can save it at a suitable location and enter the corresponding path above. After the above commands, your terminal layout should look somewhat like this -
+![](/extras/images/vins_octomap_record.jpg)
 
 ## Map Building Step 2 - Visualization
+The final step is to visualize the VI-Odometry trajectory and the registered OctoMap from the pointcloud data. For this procedure open 5 terminal windows and in sequence enter the following commands in each window separately - 
+```
+# Start a ROS server
+$ roscore
+```
+```
+# Open RVIZ for visualization with all necessary topics and layout
+$ roslaunch vins vins_rviz.launch
+```
+```
+# Start the VINS node
+$ vins
+```
+At this point your system should be waiting for imu and image topics. We are now ready to stream the data.
+```
+# Play the recorded bag file 
+$ rosbag play vins_octomap.bag
+```
+If you have the [config files](https://github.com/harshitsankhla/DragonFly/tree/master/ROS_packages/VINS-Fusion/config/bf_xsens) setup correctly, you should be seeing the pose output in the terminal window and path in RVIZ. Optionally, if you want to perform global fusion with GPS, then in a separate window run the following command - 
+```
+rosrun global_fusion global_fusion_node /mavros/global_position/raw/fix:=/gps
+```
+Finally, start publishing the octomap -
+```
+$ roslaunch octomap_server octomap_mapping.launch
+```
+Now you should be seeing the octomap aligned with the drone's trajectory. 
+
+

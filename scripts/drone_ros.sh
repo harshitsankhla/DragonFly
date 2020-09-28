@@ -113,8 +113,8 @@ echo "rs(){
 echo "px(){
 	roslaunch mavros px4.launch
 }" >> $HOME/.bashrc
-echo "vmono(){
-	roslaunch vins_estimator bf_xsens.launch
+echo "vins(){
+	rosrun vins vins_node ~/dragonfly_ws/src/VINS-Fusion/config/bf_xsens/bf_xsens_config.yaml
 }" >> $HOME/.bashrc
 
 # dumping bluefox2 camera YAML File

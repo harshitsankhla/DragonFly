@@ -3,7 +3,7 @@ This project is on outdoor mapping. Our aim is to make an [Octomap](https://octo
 ![](/extras/gifs/vins_octomap.gif)
 
 ## Intro
-To build an Octomap, we need 2 important pieces of information. A 3D perception of the environment and our pose/trajectory to register a map in reference to a fixed frame. For this project, we obtain 3D PointCloud from a Realsense D415 and VI-Odometry through a BlueFox-Xsens (Monocular Camera-IMU) combination, however, the pipeline will remain the same for other hardware configurations you may wish to explore. The camera is hardware-triggered via the IMU. Time-synchronisation is extremely important in VI-Odometry, and ideally should be within an order of 1ms, else you may observe significant drift in trajectory. Time-sync is reaquired for GPS as well if you choose to do global fusion with the VI-Odometry.
+To build an Octomap, we need 2 important pieces of information - a 3D perception of the environment, and our pose/trajectory to register a map in reference to a fixed frame. For this project, we obtain 3D PointCloud from a Realsense D415 Active IR Stereo Camera and VI-Odometry through a BlueFox-Xsens (Monocular Camera-IMU) combination (check [Lucifer's design page](https://github.com/harshitsankhla/DragonFly/blob/master/drone_designs/lucifer.md) for links to buy). This tutorial follows steps specific to this setup, however, the pipeline will remain the same, just with some corresponding changes, for other hardware configurations you may wish to explore. The camera is hardware-triggered via the IMU. Time-synchronisation is extremely important in VI-Odometry, and ideally should be within an order of 1ms, else you may observe significant drift in trajectory. Time-sync is required for GPS as well if you choose to do global fusion with the VI-Odometry.
 
 ## Hardware Setup
 Following is the setup designed for this project, mounted on [Lucifer](https://github.com/harshitsankhla/DragonFly/blob/master/drone_designs/lucifer.md).
@@ -14,6 +14,8 @@ The BlueFox camera is hardware triggered from the Xsens IMU. This connection has
 
 ## Workspace Configuration
 ***NOTE:*** You need to have your DragonFly ROS Platform setup as mentioned [here](https://github.com/harshitsankhla/DragonFly#installation).
+- **Set your camera calibration file location -** https://github.com/harshitsankhla/DragonFly/blob/3a32fc71426b13631b41ba2c5681d24a28f3c168/ROS_packages/bluefox2/launch/single_node.launch#L11
+You can refer to the files [here](https://github.com/harshitsankhla/DragonFly/tree/master/extras/camera_yaml).
 
 - **Set your BlueFox2 Monocular Camera Serial Number -**
 https://github.com/harshitsankhla/DragonFly/blob/c85165c5190ae670d9ef7308a3ab1935f050d34e/ROS_packages/bluefox2/launch/single_node.launch#L3
@@ -28,7 +30,7 @@ https://github.com/harshitsankhla/DragonFly/blob/master/ROS_packages/VINS-Fusion
 *Change the camera parameters according to your own calibration results.*
 
 - **Octomap Configuration  -**
-*You need to configure the frame in which the map and odometry is to be published and define the transform between the PointCloud and Odometry Source so the PointCloud registers correctly. There are a couple other parameters you can change, from default, to improve performance. You can directly use the launch file provided here which is a decently tested.*
+*You need to configure the frame in which the map and odometry is to be published and define a static transform [like this](https://github.com/harshitsankhla/DragonFly/blob/3a32fc71426b13631b41ba2c5681d24a28f3c168/projects/VINS_Octomap/octomap_mapping.launch#L8) between the PointCloud and Odometry Source so the PointCloud registers correctly. There are a couple other parameters you can change, from default, to improve performance. You can directly use the [launch file](https://github.com/harshitsankhla/DragonFly/blob/master/projects/VINS_Octomap/octomap_mapping.launch) provided which works with our setup.*
 
 ## Map Building Step 1 - Data Collection
 We collect RGB-image, IMU and PointCloud data in real-time from the drone. Our companion computer serves as our ROS server to the nodes streaming these messages from the sensors. In 4 separate terminal windows on your companion computer (since it will be in flight, you will have to SSH into it and start a TMUX session) and in each window separately, type in the following commands -
@@ -80,9 +82,11 @@ If you have the [config files](https://github.com/harshitsankhla/DragonFly/tree/
 ```
 $ rosrun global_fusion global_fusion_node /mavros/global_position/raw/fix:=/gps
 ```
-Finally, start publishing the octomap -
+Now we are ready to create the OctoMap, just make sure your PointCloud topic has a transform defined to the world frame so it can register with the odometry, else you'll just see the OctoMap in the local frame overwriting every pose. Finally, start publishing the octomap -
 ```
 $ roslaunch octomap_server octomap_mapping.launch
 ```
+Now you should be seeing the octomap aligned with the drone's trajectory. *On a side not, if you get a TF_OLD_DATA or MESSAGES DROPPED error, just try restarting the OctoMap node (maybe a couple times) and reset RVIZ.*
 
-Now you should be seeing the octomap aligned with the drone's trajectory. 
+## Try It On a Dataset
+If you don't have a proper hardware setup, you can still try out this project with our dataset [here](https://iiitaphyd-my.sharepoint.com/:u:/g/personal/harshit_sankhla_research_iiit_ac_in/EaafGE-u_itGjz2MMzfbw-MBk-PrPgy1I3GJQA2PxMq5Lw?e=91Kp4d).

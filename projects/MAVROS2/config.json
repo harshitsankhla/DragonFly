@@ -1,0 +1,5 @@
+{
+  "alt_topic"   : "/mavros/altitude",
+  "gps_topic"   : "/mavros/global_position/raw/fix",
+  "state_topic" : "/mavros/state"
+}

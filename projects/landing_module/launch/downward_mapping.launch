@@ -1,0 +1,87 @@
+<launch>
+
+<!-- mavros -->
+<include file="$(find mavros)/launch/px4.launch" />
+<param name="move_base/local_costmap/resolution" value="0.5"/>
+
+ fcu_url:="udp://:14540@127.0.0.1:14557"
+
+# local_position
+local_position:
+  frame_id: "map"
+  tf:
+    send: false
+    frame_id: "map"
+    child_frame_id: "base_link"
+    send_fcu: false
+
+# global_position
+global_position:
+  frame_id: "map"             # origin frame
+  child_frame_id: "base_link" # body-fixed frame
+  rot_covariance: 99999.0   # covariance for attitude?
+  gps_uere: 1.0             # User Equivalent Range Error (UERE) of GPS sensor (m)
+  use_relative_alt: true    # use relative altitude for local coordinates
+  tf:
+    send: false               # send TF?
+    frame_id: "map"  # TF frame_id
+    global_frame_id: "earth"  # TF earth frame_id
+    child_frame_id: "base_link" # TF child_frame_id
+
+
+
+
+
+<!-- tf  -->
+
+<!-- transform from local_origin_ned to map-->
+<node pkg="tf" type="static_transform_publisher" name="mapTF_broadcaster" args="0 0 0 0 0 0 1 local_origin_ned map 100" />
+<!-- conversion from camera frame to base link frame (align camera X-Y-Z axes with that of Mavros)-->
+<node pkg="tf" type="static_transform_publisher" name="cam_downward_TF_broadcaster" args="0 0 -0.1 1.57 3.14 0 base_link camera_link 100" />
+
+
+<!-- octomap -->
+<node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+<param name="resolution" value="0.1" /> 
+<!-- 0.1 or 0.20 -->
+<param name="frame_id" type="string" value="map" />
+<!-- maximum range to integrate (speedup!) -->
+<param name="sensor_model/max_range" value="10.0" />
+<!-- 10.0 or 15.0 -->
+<!-- data source to integrate (PointCloud2) -->
+<remap from="cloud_in" to="/camera/depth/points" />
+
+
+<!-- <param name="resolution" value="1.0" /> -->
+<!-- <param name="frame_id" type="string" value="local_origin" /> -->
+<!-- <param name="sensor_model/max_range" value="9.0" /> -->
+<!-- <param name="sensor_model/min" value="0.01" /> -->
+<!-- <param name="sensor_model/max" value="0.99" /> -->
+<!-- <param name="sensor_model/hit" value="0.9" /> -->
+<!-- <param name="sensor_model/miss" value="0.45" /> -->
+<!-- <param name="color/r" value="0.1" /> -->
+<!-- <param name="color/g" value="0.1" /> -->
+<!-- <param name="color/b" value="0.1" /> -->
+<!-- <param name="color/a" value="1.0" /> -->
+<!-- Filter out obstacles which are lower than 1 meter -->
+<!-- <param name="occupancy_min_z" value="1.0" /> -->
+<!-- <param name="height_map" value="false" /> -->
+<!-- <param name="publish_free_space" value="false" /> -->
+
+
+
+</node>
+</launch>
+
+
+
+
+
+
+
+
+
+
+
+
+
